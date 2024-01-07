@@ -33,30 +33,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var tbody = table.querySelector('tbody');
-    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'), 0);
+    if (!tbody) {
+        console.log('No tbody found in the table');
+        return;
+    }
+
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    if (!rows.length) {
+        console.log('No rows found in the tbody');
+        return;
+    }
 
     rows.sort(function(a, b) {
-        var aLastCell = a.querySelector('td:last-child');
-        var bLastCell = b.querySelector('td:last-child');
+        var lastCellA = a.querySelector('td:last-child');
+        var lastCellB = b.querySelector('td:last-child');
 
-        if (!aLastCell || !bLastCell) {
-            console.log('No last cell found in a row');
+        if (!lastCellA || !lastCellB) {
+            console.log('Last cell not found in a row');
             return 0;
         }
 
-        var aValue = aLastCell.textContent;
-        var aPercentage = parseFloat(aValue.substring(0, aValue.indexOf('%')));
+        var numberA = parseFloat(lastCellA.textContent.replace(',', '.'));
+        var numberB = parseFloat(lastCellB.textContent.replace(',', '.'));
 
-        var bValue = bLastCell.textContent;
-        var bPercentage = parseFloat(bValue.substring(0, bValue.indexOf('%')));
+        if (isNaN(numberA) || isNaN(numberB)) {
+            console.log('Last cell does not contain a valid number');
+            return 0;
+        }
 
-        return bPercentage - aPercentage;
+        return numberB - numberA;
     });
 
     rows.forEach(function(row) {
         tbody.appendChild(row);
     });
 });
+
 document.addEventListener('DOMContentLoaded', function() {
     var table = document.querySelector('table');
     if (!table) {
@@ -89,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 </script>
 </body>
 </html>
