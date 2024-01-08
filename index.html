@@ -4,21 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://freesvg.org/img/flomar_Football_(soccer).png" type="image/png">
+    <link rel="icon" href="https://i.imgur.com/borPjuN.png" type="image/png">
     <title>ShellStave</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-white text-center bg-slate-800">
-<div class="overflow-x-auto">
+<div class="overflow-x-auto mx-auto container">
 
-    <div class="text-sm text-slate-400 py-2">ShellStave - v1.0.7</div>
-
+   <div class="text-sm text-slate-400 pt-2 flex justify-center select-none"><img src="favicon.svg" class="mx-2" height="15" width="15" draggable="false">ShellStave - v1.0.9</div>
+     <div class="mt-2 font-semibold text-lg">08.01.2024 - 22:38</div>
+    <span class="mb-4 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">LAST UPDATED</span> 
     <table class="table-auto border-collapse border border-slate-500 w-full overflow-auto touch-auto scroll-auto">
   <tr class="font-semibold">
-    <th class="border border-slate-600 border-slate-600 bg-slate-700 text-slate-200">EKIPE</th>
+    <th class="border border-slate-600 border-slate-600 bg-slate-700 text-slate-200">GAMES</th>
     <th class="border border-slate-600 bg-slate-700 text-slate-200">AVG.GOAL</th>
     <th class="border border-slate-600 bg-slate-700 text-slate-200">H/A</th>
-    <th class="border border-slate-600 bg-slate-700 text-slate-200"><3.5 (%)</th>
+    <th class="border border-slate-600 bg-slate-700 text-slate-200">RATING</th>
   </tr>
   
   </table>
@@ -32,30 +33,75 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var tbody = table.querySelector('tbody');
-    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'), 0);
+    if (!tbody) {
+        console.log('No tbody found in the table');
+        return;
+    }
+
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    if (!rows.length) {
+        console.log('No rows found in the tbody');
+        return;
+    }
 
     rows.sort(function(a, b) {
-        var aLastCell = a.querySelector('td:last-child');
-        var bLastCell = b.querySelector('td:last-child');
+        var lastCellA = a.querySelector('td:last-child');
+        var lastCellB = b.querySelector('td:last-child');
 
-        if (!aLastCell || !bLastCell) {
-            console.log('No last cell found in a row');
+        if (!lastCellA || !lastCellB) {
+            console.log('Last cell not found in a row');
             return 0;
         }
 
-        var aValue = aLastCell.textContent;
-        var aPercentage = parseFloat(aValue.substring(0, aValue.indexOf('%')));
+        var numberA = parseFloat(lastCellA.textContent.replace(',', '.'));
+        var numberB = parseFloat(lastCellB.textContent.replace(',', '.'));
 
-        var bValue = bLastCell.textContent;
-        var bPercentage = parseFloat(bValue.substring(0, bValue.indexOf('%')));
+        if (isNaN(numberA) || isNaN(numberB)) {
+            console.log('Last cell does not contain a valid number');
+            return 0;
+        }
 
-        return bPercentage - aPercentage;
+        return numberB - numberA;
     });
 
     rows.forEach(function(row) {
         tbody.appendChild(row);
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    var table = document.querySelector('table');
+    if (!table) {
+        console.log('No table found');
+        return;
+    }
+
+    var tbody = table.querySelector('tbody');
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'), 0);
+
+    rows.forEach(function(row) {
+        var lastCell = row.querySelector('td:last-child');
+        if (!lastCell) {
+            console.log('No last cell found in a row');
+            return;
+        }
+
+        var value = parseFloat(lastCell.textContent);
+        if (isNaN(value)) {
+            console.log('Last cell does not contain a number');
+            return;
+        }
+
+        if (value < 6.6) {
+            lastCell.className += " bg-rose-500 text-slate-800 text-[1.05rem] font-bold";
+        } else if (value >= 6.6 && value <= 7.4) {
+            lastCell.className += " bg-yellow-500 text-slate-800 text-[1.05rem] font-bold";
+        } else if (value > 7.4) {
+            lastCell.className += " bg-green-500 text-slate-800 text-[1.05rem] font-bold";
+        }
+    });
+});
+
 </script>
 </body>
 </html>
