@@ -12,7 +12,7 @@
 <div class="overflow-x-auto mx-auto container">
 
    <div class="text-sm text-slate-400 pt-2 flex justify-center select-none"><img src="favicon.svg" class="mx-2" height="15" width="15" draggable="false">ShellStave - v1.0.10</div>
-     <div class="mt-2 font-semibold text-lg">12.01.2024 - 19:40</div>
+     <div class="mt-2 font-semibold text-lg">12.01.2024 - 19:56</div>
     <span class="mb-4 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">LAST UPDATED</span> 
     <table class="table-auto border-collapse border border-slate-500 w-full overflow-auto touch-auto scroll-auto">
   <tr class="font-semibold">
@@ -31,82 +31,79 @@
   </table>
   </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var table = document.querySelector('table');
-    if (!table) {
-        console.log('No table found');
+document.addEventListener("DOMContentLoaded",function(){
+    var e=document.querySelector("table");
+    if(!e){
+        console.log("No table found");
         return;
     }
-
-    var tbody = table.querySelector('tbody');
-    if (!tbody) {
-        console.log('No tbody found in the table');
+    var t=e.querySelector("tbody");
+    if(!t){
+        console.log("No tbody found in the table");
         return;
     }
-
-    var rows = Array.from(tbody.querySelectorAll('tr'));
-    if (!rows.length) {
-        console.log('No rows found in the tbody');
+    var o=Array.from(t.querySelectorAll("tr"));
+    if(!o.length){
+        console.log("No rows found in the tbody");
         return;
     }
-
-    rows.sort(function(a, b) {
-        var lastCellA = a.querySelector('td:last-child');
-        var lastCellB = b.querySelector('td:last-child');
-
-        if (!lastCellA || !lastCellB) {
-            console.log('Last cell not found in a row');
-            return 0;
+    o.sort(function(e,t){
+        var o=e.querySelector("td:nth-last-child(2)"),
+            r=t.querySelector("td:nth-last-child(2)");
+        if(!o||!r){
+            return console.log("Second last cell not found in a row"),0;
         }
-
-        var numberA = parseFloat(lastCellA.textContent.replace(',', '.'));
-        var numberB = parseFloat(lastCellB.textContent.replace(',', '.'));
-
-        if (isNaN(numberA) || isNaN(numberB)) {
-            console.log('Last cell does not contain a valid number');
-            return 0;
+        var l=parseFloat(o.textContent.replace(",",".")),
+            n=parseFloat(r.textContent.replace(",","."));
+        if(isNaN(l)||isNaN(n)){
+            return console.log("Second last cell does not contain a valid number"),0;
         }
-
-        return numberB - numberA;
+        return n-l;
     });
-
-    rows.forEach(function(row) {
-        tbody.appendChild(row);
+    o.forEach(function(e){
+        t.appendChild(e);
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    var table = document.querySelector('table');
-    if (!table) {
-        console.log('No table found');
+document.addEventListener("DOMContentLoaded",function(){
+    var e=document.querySelector("table");
+    if(!e){
+        console.log("No table found");
         return;
     }
-
-    var tbody = table.querySelector('tbody');
-    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'), 0);
-
-    rows.forEach(function(row) {
-        var lastCell = row.querySelector('td:last-child');
-        if (!lastCell) {
-            console.log('No last cell found in a row');
+    var t=e.querySelector("tbody");
+    Array.prototype.slice.call(t.querySelectorAll("tr"),0).forEach(function(e){
+        var t=e.querySelector("td:nth-last-child(2)");
+        if(!t){
+            console.log("No last cell found in a row");
             return;
         }
-
-        var value = parseFloat(lastCell.textContent);
-        if (isNaN(value)) {
-            console.log('Last cell does not contain a number');
+        var o=parseFloat(t.textContent);
+        if(isNaN(o)){
+            console.log("Last cell does not contain a number");
             return;
         }
-
-        if (value < 6.6) {
-            lastCell.className += " bg-rose-500 text-slate-800 text-[1.05rem] font-bold";
-        } else if (value >= 6.6 && value <= 7.4) {
-            lastCell.className += " bg-yellow-500 text-slate-800 text-[1.05rem] font-bold";
-        } else if (value > 7.4) {
-            lastCell.className += " bg-green-500 text-slate-800 text-[1.05rem] font-bold";
+        if(o<6.6){
+            t.className+=" bg-rose-500 text-slate-800 text-[1.05rem] font-bold";
+        }else if(o>=6.6&&o<=7.4){
+            t.className+=" bg-yellow-500 text-slate-800 text-[1.05rem] font-bold";
+        }else if(o>7.4){
+            t.className+=" bg-green-500 text-slate-800 text-[1.05rem] font-bold";
         }
     });
 });
+
+const table = document.querySelector('table');
+const rows = table.rows;
+
+for (let i = 0; i < rows.length; i++) {
+  const cells = rows[i].cells;
+  const lastCell = cells[cells.length - 1];
+  if (lastCell.tagName === 'TD') {
+    lastCell.classList.add('bg-slate-500');
+  }
+}
+
 
 </script>
 </body>
