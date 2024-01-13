@@ -1,1 +1,1 @@
-ShellStave Version 1.0.11
+ShellStave Version 1.0.12
